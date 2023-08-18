@@ -1,0 +1,216 @@
+class STUDENT{
+    String sname;
+    int[] marks_array;
+    void assign(String name, int[] marks) {
+        sname = name;
+        marks_array = marks;
+    }
+    void display() {
+        System.out.println("Student Name: " + sname);
+        System.out.print("Marks: ");
+        for (int mark : marks_array) {
+            System.out.print(mark + " ");
+        }
+        System.out.println();
+    }
+    void compute() {
+        int total = 0;
+        for (int mark : marks_array) {
+            total += mark;
+        }
+        double average = (double) total / marks_array.length;
+        System.out.println("Total Marks: " + total);
+        System.out.println("Average Marks: " + average);
+    }
+}
+import java.util.Scanner;
+
+public class StudentTest {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter student name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter number of subjects: ");
+        int numSubjects = scanner.nextInt();
+        int[] marks = new int[numSubjects];
+        System.out.println("Enter marks for each subject:");
+        for (int i = 0; i < numSubjects; i++) {
+            System.out.print("Subject " + (i + 1) + ": ");
+            marks[i] = scanner.nextInt();
+        }
+        STUDENT student = new STUDENT();
+        student.assign(name, marks);
+        System.out.println("\nStudent Details:");
+        student.display();
+        System.out.println("\nMarks Calculation:");
+        student.compute();
+    }
+}
+import java.util.Scanner;
+class EMPLOYEE {
+    String Ename;
+    int Eid;
+    double Basic,DA,gross_Sal,IT,net_sal;
+    void read() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Employee Name: ");
+        Ename = scanner.nextLine();
+        System.out.print("Enter Employee ID: ");
+        Eid = scanner.nextInt();
+        System.out.print("Enter Basic Salary: ");
+        Basic = scanner.nextDouble();
+    }
+    void compute_net_sal() {
+        DA = 0.52 * Basic;
+        gross_Sal = Basic + DA;
+        IT = 0.3 * gross_Sal;
+        net_sal = gross_Sal - IT;
+    }
+    void display() {
+        System.out.println("Employee ID: " + Eid);
+        System.out.println("Employee Name: " + Ename);
+        System.out.println("Basic Salary: " + Basic);
+        System.out.println("DA: " + DA);
+        System.out.println("Gross Salary: " + gross_Sal);
+        System.out.println("Income Tax: " + IT);
+        System.out.println("Net Salary: " + net_sal);
+        System.out.println("------------------------------");
+    }
+}
+import java.util.Scanner;
+public class EmployeeTest {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of employees: ");
+        int N = scanner.nextInt();
+        EMPLOYEE[] employees = new EMPLOYEE[N];
+        for (int i = 0; i < N; i++) {
+            employees[i] = new EMPLOYEE();
+            System.out.println("Enter details for Employee " + (i + 1));
+            employees[i].read();
+            employees[i].compute_net_sal();
+        }
+        System.out.println("Employee Details and Net Salaries:");
+        for (EMPLOYEE employee : employees) {
+            employee.display();
+        }
+    }
+}
+import java.util.*;
+class Mixer {
+    List<Integer> arr = new ArrayList<>();
+    void accept() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+        int prev = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            int num = scanner.nextInt();
+            if (num > prev) {
+                arr.add(num);
+                prev = num;
+            } else {
+                System.out.println("Please enter elements in ascending order.");
+                i--;
+            }
+        }
+    }
+    Mixer mix(Mixer A) {
+        Mixer result = new Mixer();
+        int i = 0, j = 0;
+        while (i < arr.size() && j < A.arr.size()) {
+            if (arr.get(i) < A.arr.get(j)) {
+                result.arr.add(arr.get(i++));
+            } else if (arr.get(i) > A.arr.get(j)) {
+                result.arr.add(A.arr.get(j++));
+            } else {
+                result.arr.add(arr.get(i++));
+                j++;
+            }
+        }
+        while (i < arr.size()) {
+            result.arr.add(arr.get(i++));
+        }
+        while (j < A.arr.size()) {
+            result.arr.add(A.arr.get(j++));
+        }
+        return result;
+    }
+    void display() {
+        System.out.print("Merged array: ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+}
+public class MixerTest {
+    public static void main(String[] args) {
+        Mixer mixer1 = new Mixer();
+        Mixer mixer2 = new Mixer();
+
+        System.out.println("Enter elements for Mixer 1:");
+        mixer1.accept();
+
+        System.out.println("Enter elements for Mixer 2:");
+        mixer2.accept();
+
+        Mixer mergedMixer = mixer1.mix(mixer2);
+
+        System.out.println("Mixer 1:");
+        mixer1.display();
+
+        System.out.println("Mixer 2:");
+        mixer2.display();
+
+        System.out.println("Merged Mixer:");
+        mergedMixer.display();
+    }
+}
+class Stack {
+    private int[] arr;
+    private int tos; // top of stack
+    public Stack(int size) {
+        arr = new int[size];
+        tos = -1; // Empty stack
+    }
+    public void push(int value) {
+        if (tos == arr.length - 1) {
+            System.out.println("Stack overflow");
+        } else {
+            arr[++tos] = value;
+            System.out.println(value + " pushed to the stack.");
+        }
+    }
+    public void pop() {
+        if (tos == -1) {
+            System.out.println("Stack underflow");
+        } else {
+            System.out.println(arr[tos--] + " popped from the stack.");
+        }
+    }
+    public void display() {
+        if (tos == -1) {
+            System.out.println("Stack is empty.");
+            return;
+        }
+        System.out.println("Stack contents:");
+        for (int i = tos; i >= 0; i--) {
+            System.out.println(arr[i]);
+        }
+    }
+}
+public class StackTest {
+    public static void main(String[] args) {
+        Stack stack = new Stack(5);
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+        stack.display();
+        stack.pop();
+        stack.pop();
+        stack.display();
+        stack.pop();
+        stack.display();
+    }
+}
