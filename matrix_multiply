@@ -1,0 +1,76 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int** read_mat(int m, int n);
+void dsp_mat(int** a, int m, int n);
+int** multiply(int** a, int** b, int m1, int n1, int m2, int n2);
+
+int main() {
+    int m1, n1, m2, n2, **a, **b, **c;
+    printf("Enter dimensions of matrix A: ");
+    scanf("%d %d", &m1, &n1);
+    printf("Enter elements:\n");
+    a = read_mat(m1, n1);
+
+    printf("Enter dimensions of matrix B: ");
+    scanf("%d %d", &m2, &n2);
+    printf("Enter elements:\n");
+    b = read_mat(m2, n2);
+
+   
+
+    c = multiply(a, b, m1, n1, m2, n2);
+    dsp_mat(c, m1, n2);
+
+    // Free dynamically allocated memory
+    for (int i = 0; i < m1; i++) {
+        free(a[i]);
+    }
+    free(a);
+
+    for (int i = 0; i < m2; i++) {
+        free(b[i]);
+    }
+    free(b);
+
+    for (int i = 0; i < m1; i++) {
+        free(c[i]);
+    }
+    free(c);
+
+    return 0;
+}
+
+int** read_mat(int m, int n) {
+    int** a = (int**)malloc(m * sizeof(int*));
+    for (int i = 0; i < m; i++) {
+        *(a + i) = (int*)calloc(n, sizeof(int));
+        for (int j = 0; j < n; j++) {
+            scanf("%d", *(a+i)+j);
+        }
+    }
+    return a;
+}
+
+void dsp_mat(int** a, int m, int n) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d ", *(*(a + i) + j));
+        }
+        printf("\n");
+    }
+}
+
+int** multiply(int** a, int** b, int m1, int n1, int m2, int n2) {
+    int** d = (int**)malloc(m1 * sizeof(int*));
+    for (int i = 0; i < m1; i++) {
+        *(d + i) = (int*)calloc(n2, sizeof(int));
+        for (int j = 0; j < n2; j++) {
+            *(*(d + i) + j) = 0;
+            for (int k = 0; k < n1; k++) {
+                *(*(d + i) + j) += *(*(a + i) + k) * *(*(b + k) + j);
+            }
+        }
+    }
+    return d;
+}
