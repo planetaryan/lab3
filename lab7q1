@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<stdbool.h>
+# define max_size 100
+
+typedef struct{
+	char q[max_size][20];
+	int front,rear;
+}queue;
+
+bool isEmpty(queue*p){
+	return((p->rear+1)%max_size==p->front);
+}
+
+bool isFull(queue*p){
+	return((p->rear+1)%max_size==p->front);
+}
+
+
+void insertcq(char str[],queue* p){
+	if(isFull(p)){
+		printf("overflow");
+	}
+	else{
+		if(p->front==-1){
+			p->front=0;
+		}
+		p->rear=(p->rear+1)%max_size;
+		strcpy(p->q[p->rear],str);
+	}
+}
+
+void deletecq(queue* p){
+	if(isEmpty(p)){
+		printf("underflow");
+	}
+	else if(p->front==p->rear){
+		p->front=-1;
+		p->rear=-1;
+		
+	}
+	else{
+		p->front=(p->front+1)%max_size;
+		
+	}
+}
+
+void displaycq(queue *p){
+	for(int i=p->front;i<=p->rear;i=(i+1)%max_size){
+		printf("%s",p->q[i]);
+	}
+}
+
+int main(){
+
+	queue *p;
+	p=(queue*)malloc(sizeof(queue));
+	p->front=-1;
+	p->rear=-1;
+	
+
+	insertcq("hello ",p);
+	insertcq("my ",p);
+	insertcq("name ",p);
+	
+
+	
+	displaycq(p);
+	deletecq(p);
+
+	displaycq(p);
+	
+
+return 0;
+
+}
