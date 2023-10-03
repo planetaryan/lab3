@@ -1,0 +1,108 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+# define max_size 6
+
+typedef struct{
+	int q[max_size];
+	int front1,rear1,front2,rear2;
+}queue;
+
+bool isEmpty(queue*p){
+	return((p->rear1+1)%max_size/2==p->front1 || (p->rear2+1)%max_size==p->front2);
+}
+
+bool isFull(queue*p){
+	return((p->rear1+1)%max_size/2==p->front1 || (p->rear2+1)%max_size==p->front2);
+}
+
+
+void insertcq(int ele,queue* p){
+	if(isFull(p)){
+		printf("overflow");
+	}
+	else{
+		if(p->front1==-1){
+			p->front1=0;
+		}
+		if(p->front2==(max_size/2)-1){
+			p->front2=max_size/2;
+		}
+		if(p->front1<max_size/2){
+			p->rear1=(p->rear1+1)%max_size/2;
+			p->q[p->rear1]=ele;
+		}
+		else{
+			p->rear2=(p->rear2+1)%max_size/2;
+			p->q[p->rear2]=ele;
+		}
+		
+		
+		
+}
+}
+
+void deletecq(queue* p){
+	if(isEmpty(p)){
+		printf("underflow");
+	}
+	else if(p->front1==p->rear1){
+		p->front1=-1;
+		p->rear1=-1;
+		
+	}
+	else if(p->front2==p->rear2){
+		p->front1=max_size/2 -1;
+		p->rear1=-1;
+		
+	}
+
+	else{
+		if(p->front1<max_size/2){
+			p->front1=(p->front1+1)%max_size/2;
+		}
+		else{
+			p->front2=(p->front2+1)%max_size/2;
+		}
+		
+		
+	}
+}
+
+void displaycq(queue *p){
+	for(int i=p->front1+1;i<=p->rear1;i=(i+1)%max_size/2){
+		printf("%d",p->q[i]);
+	}
+	for(int i=p->front2+1;i<=p->rear2;i=(i+1)%max_size/2){
+		printf("%d",p->q[i]);
+	}
+}
+
+int main(){
+
+	queue *p;
+	p=(queue*)malloc(sizeof(queue));
+	p->front1=-1;
+	p->front2=max_size/2-1;
+	p->rear1=-1;
+	p->rear2=-1;
+	
+
+	insertcq(1,p);
+	insertcq(2,p);
+	insertcq(3,p);
+	insertcq(4,p);
+	insertcq(5,p);
+	insertcq(6,p);
+	
+
+	
+	displaycq(p);
+	deletecq(p);
+
+	displaycq(p);
+	
+
+return 0;
+
+}
